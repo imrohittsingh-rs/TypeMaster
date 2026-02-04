@@ -4,6 +4,8 @@ const displayTimer = document.getElementById("display-timer");
 const resultSection = document.getElementById("result-section");
 const wpmVal = document.getElementById("wpm-val");
 const accuracyVal = document.getElementById("accuracy-val");
+const totalCorrectVal = document.getElementById("total-correct-val");
+const totalIncorrectVal = document.getElementById("total-incorrect-val");
 const retryBtn = document.getElementById("retry-btn");
 
 let timeLeft; // time in seconds
@@ -22,7 +24,6 @@ timerSelect.addEventListener("change", () => {
   textField.disabled = false;
 
   if (typeof resetGameState === "function") resetGameState();
-
 });
 
 // converting minutes to seconds (from selected option)
@@ -56,7 +57,7 @@ function resetTimer() {
   clearInterval(timerInterval);
   timerInterval = null;
   isRunning = false;
-  resultSection.classList.add("hidden");
+  resultSection.classList.remove("active");
 }
 
 // end game
@@ -65,23 +66,31 @@ function endGame() {
   isRunning = false;
   document.querySelector(".text-field").disabled = true;
 
-  const correctChars = document.querySelectorAll(".correct").length;
-  const incorrectChars = document.querySelectorAll(".incorrect").length;
-  const totalTyped = correctChars + incorrectChars;
+  // Add the stats from the current (unfinished) quote to the totals
+  const currentCorrect = document.querySelectorAll(".correct").length;
+  const currentIncorrect = document.querySelectorAll(".incorrect").length;
 
+  const finalCorrect = chars.correctChars + currentCorrect;
+  const finalIncorrect = chars.incorrectChars + currentIncorrect;
+  const totalTyped = finalCorrect + finalIncorrect;
+
+  
   // WPM Formula: (total characters / 5) / time spent in minutes
   const totalTimeChosen = parseInt(timerSelect.value) * 60;
   const timeSpentSeconds = totalTimeChosen - timeLeft;
   const timeSpentMinutes = timeSpentSeconds / 60;
-
+  
   const wpm =
-    timeSpentMinutes > 0 ? Math.round(totalTyped / 5 / timeSpentMinutes) : 0;
+  timeSpentMinutes > 0 ? Math.round(totalTyped / 5 / timeSpentMinutes) : 0;
   const accuracy =
-    totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 0;
-
+  totalTyped > 0 ? Math.round((finalCorrect / totalTyped) * 100) : 0;
+  
   wpmVal.innerText = wpm;
   accuracyVal.innerText = accuracy;
-  resultSection.classList.remove("hidden");
+  totalCorrectVal.innerText = finalCorrect;
+  totalIncorrectVal.innerText = finalIncorrect;
+  
+  resultSection.classList.add("active");
 }
 
 function resetTextColors() {

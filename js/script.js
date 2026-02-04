@@ -1,3 +1,8 @@
+const chars = {
+  correctChars: 0,
+  incorrectChars: 0,
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   const givenText = document.querySelector(".given-text");
   const textField = document.querySelector(".text-field");
@@ -43,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   textField.addEventListener("keydown", (e) => {
     // start timer on first keypress
     if (!start && e.key.length === 1) {
-      startTimer();
+      startTimer(); // from timer.js
       start = true;
     }
 
@@ -81,14 +86,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ind++;
 
+    // When quote is finished, add current stats to the global totals
     if (ind === arr.length) {
-      setTimeout(getRandomQuote, 400);
+      const correctChars = document.querySelectorAll(".correct").length;
+      const incorrectChars = document.querySelectorAll(".incorrect").length;
+      chars.correctChars += correctChars;
+      chars.incorrectChars += incorrectChars;
+      setTimeout(getRandomQuote, 500);
     }
   });
 
   // Global function to reset state when timer changes
   window.resetGameState = () => {
     start = false;
+    chars.correctChars = 0;
+    chars.incorrectChars = 0;
     getRandomQuote();
   };
 
