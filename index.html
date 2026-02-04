@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>type master</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="head">
+        <h1>TYPE MASTER</h1>
+        <select name="timer" id="timer">
+          <option value="2">2 min</option>
+          <option value="5">5 min</option>
+          <option value="10">10 min</option>
+          <option value="15">15 min</option>
+        </select>
+        <div id="display-timer">Time: 00:00</div>
+      </div>
+    </header>
+    <div class="wrapper">
+      <p class="given-text">Loading...</p>
+    </div>
+
+    <div class="text-box">
+      <textarea
+        class="text-field"
+        autofocus
+        placeholder="Start typing here..."
+      ></textarea>
+    </div>
+
+    <div id="result-section" class="hidden">
+      <h2>Test Results</h2>
+      <div class="stats">
+        <p>WPM: <span id="wpm-val">0</span></p>
+        <p>Accuracy: <span id="accuracy-val">0</span>%</p>
+      </div>
+      <button id="retry-btn">Try Again</button>
+    </div>
+
+    <footer>
+      <p>
+        &copy; 2026 Type Master | Developed by
+        <img src="assets/gitLogo.png" alt="icon" />
+        <span>@imrohittsingh-rs</span>
+      </p>
+    </footer>
+
+    <script src="js/timer.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
